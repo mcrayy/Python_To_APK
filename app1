@@ -1,0 +1,42 @@
+import random
+import time
+import winsound
+
+# Open the file containing the words and their translations
+with open("words.txt", "r") as f:
+    # Read the contents of the file into a dictionary
+    dictionary = dict(line.strip().split(":") for line in f)
+
+# Get a list of the English words from the dictionary
+english_words = list(dictionary.keys())
+
+# Keep running the program until the user quits
+while True:
+    # Pause the program for a random amount of time (between 1 and 5 seconds)
+    pause_time = random.uniform(1, 5)
+    time.sleep(pause_time)
+    
+    # Choose a random English word from the list
+    word = random.choice(english_words)
+    
+    # Get the correct translation from the dictionary
+    translation = dictionary[word]
+    
+    # Play a sound to indicate that the word is being displayed
+    winsound.PlaySound("SystemAsterisk", winsound.SND_ALIAS)
+    
+    # Display the English word and prompt the user for a translation
+    user_input = input(f"What is the Russian translation of '{word}'? ")
+    
+    # Check if the user's translation is correct
+    if user_input.lower() == translation.lower():
+        print("Correct!")
+        # Remove the English word from the list so it doesn't get chosen again
+        english_words.remove(word)
+    else:
+        print(f"Incorrect. The correct translation is '{translation}'.")
+    
+    # Check if all English words have been translated correctly
+    if not english_words:
+        print("Congratulations, you have translated all the words correctly!")
+        break
